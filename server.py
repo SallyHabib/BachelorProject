@@ -3,11 +3,19 @@ from flask import request
 import requests
 import facebook
 import urllib
+import httplib
 
 import json
+from httplib import HTTPResponse
 #https://teamtreehouse.com/community/can-someone-help-me-understand-flaskname-a-little-better
 app = Flask(__name__)
-
+global r3
+r3='ddd'
+global resp
+global data
+data={}
+global json_data
+json_data = json.dumps(data)
 
 @app.route("/")
 def hello():
@@ -20,7 +28,7 @@ def hello():
     payload = {
 "clientId":"22CMZV",
 "grant_type":"authorization_code",
-"redirect_uri":"http://localhost:8080",
+"redirect_uri":"http://10.0.2.2:8080",
 "code":code
     }
     
@@ -32,40 +40,39 @@ def hello():
    }
     r = requests.post(url, params=payload, headers=headers)
     data=r.json()
-    print(r.content)
-   # g=data['content'][0]
+    #print(r.content)
+    # g=data['content'][0]
     access_token=data['access_token']
     print(access_token)
     
     headers1 = {
         'Authorization': 'Bearer '+ access_token
    }
+   
+    
     r2 = requests.get('https://api.fitbit.com/1/user/-/profile.json', headers=headers1)
-    print(r2.content)
-    
-    
-    
-    
-    
-    
-    #Exchanging Code for an Access Token
-    #r=requests.get('https://www.google.com')
-    #g=data['content'][0]
-    #print(g)
-    #access_token=data['access_token']
-    #graph = facebook.GraphAPI(access_token)
-    # me is of type dictionary
-    #me= graph.request('/me?fields=id,name,email,birthday,age_range')
-    #id=me.get('id')
-    #friends= graph.request('/me/friends')
-    #data_friends=friends['data']
-    print(r)
-    #print(friends)
-    #print(data_friends)
+    resp=r2
+    #print(r2.content)
+    data2=r2.json()
+    user=data2['user']
+    #HTTPResponse(json.dumps(r2.json()))
+    #print(user)
+    global data 
+    global json_data
+    data['key'] = user
+    json_data = json.dumps(data)
+    print(json_data)
 
-    return 'Done'
+    return json.dumps(r2.json())
 
-#debug=True print out errors on the web page
+    #debug=True print out errors on the web page
 
+@app.route("/response")
+def response():
+ 
+  print(json_data)
+  return json_data
+
+  
 app.run(host="0.0.0.0", port=int("8080"), debug=True)
 
