@@ -4,11 +4,20 @@ import requests
 import facebook
 import urllib
 import httplib
-
+from pymongo import MongoClient
 import json
 from httplib import HTTPResponse
 #https://teamtreehouse.com/community/can-someone-help-me-understand-flaskname-a-little-better
 app = Flask(__name__)
+FACEBOOK_APP_ID = '188725925227536'
+FACEBOOK_APP_SECRET = '76cf7f4e23189441ed6a416f99380a2c'
+
+#client = MongoClient()
+client = MongoClient("mongodb://SallyHabib1:Jesus2016@ds119810.mlab.com:19810/mylife")
+db = client['mylife']
+coll = db['facebook']
+print(coll)
+
 global r3
 r3='ddd'
 global resp
@@ -72,6 +81,56 @@ def response():
  
   print(json_data)
   return json_data
+
+@app.route("/facebook")
+def zozo():
+    #here request is request of flask not the requests library and it return the attribute specified f
+    code = request.args.get('code')
+
+    # print(code)
+    #Exchanging Code for an Access Token
+    r=requests.get('https://graph.facebook.com/v2.12/oauth/access_token?client_id={}&redirect_uri={}&client_secret={}&code={}'.format(FACEBOOK_APP_ID,'http://localhost:8080/facebook',FACEBOOK_APP_SECRET,code))
+    data = r.json()
+    access_token=data['access_token']
+
+    graph = facebook.GraphAPI(access_token)
+    permissions=requests.get('https://graph.facebook.com/me/permissions?access_token='+access_token)
+    permissionsJson=permissions.json()
+    
+    declined=[]
+    print(json.dumps(permissions.json()))
+    i = 0
+    while i < len(permissionsJson['data']):
+       #print(json.dumps(permissionsJson['data'][i]))
+       if permissionsJson['data'][i]['status']=='declined':
+            declined.append(permissionsJson['data'][i]['permission'])
+       i += 1
+    print(declined)
+    # me is of type dictionary
+    me= graph.request('/me?fields=id,name,email,birthday,age_range,posts')
+    #print(permissions.json())
+    id=me.get('id')
+    if declined.__contains__('name'):
+        print "yes"
+    else:
+        print "no"
+    name=me.get('name')
+    email=me.get('email')
+    posts=me.get('posts')
+    result = db.facebook.insert_one({
+        "name":name,
+        "email":email
+      })
+
+    print(name)
+    friends= graph.request('/me/friends')
+    #data_friends=friends['data']
+    #print(me)
+    #print(friends)
+    #print(data_friends)
+
+    return 'Done'
+
 
   
 app.run(host="0.0.0.0", port=int("8080"), debug=True)
