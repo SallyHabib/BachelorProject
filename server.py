@@ -62,13 +62,12 @@ def hello():
     #print(r2.content)
     data2=r2.json()
     user=data2['user']
-    #HTTPResponse(json.dumps(r2.json()))
-    #print(user)
+    
     global data 
     global json_data
     data['key'] = user
     json_data = json.dumps(data)
-    print(json_data)
+    #print(json_data)
 
     return json.dumps(r2.json())
 
@@ -76,9 +75,29 @@ def hello():
 
 @app.route("/response")
 def response():
- 
+    user_id = request.args.get('user_id')
+    key=data.get("key")
+    fullName=key.get("fullName")
+    birthdayFitness=key.get("dateOfBirth")
+    id=data.get("user_id")
+    height=key.get("height")
+    heightString=str(height)
+    weight=key.get("weight")
+    weightString=str(weight)
+    
+
+    db.fitness.update_one({"user_ID":user_id},{
+       "$set":{
+        "_id":id,
+        "name":fullName,
+        "birthday":birthdayFitness,
+        "height":heightString,
+        "weight":weightString,
+        "user_ID": user_id
+       }}
+      ,  upsert=True )
   #print(json_data)
-  return json_data
+    return json_data
 
 @app.route("/facebook")
 def zozo():
