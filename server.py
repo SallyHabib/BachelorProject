@@ -140,34 +140,48 @@ def zozo():
             i += 1
         print(declined)
         # me is of type dictionary
-        me= graph.get_object('/me?fields=id,name,likes.limit(10){about,name},posts.since(2018).limit(10),birthday,email')
+        me= graph.get_object('/me?fields=id,name,likes.limit(10){about,name},posts.since(2017).limit(10),birthday,email')
         #print(permissions.json())
         id=me['id']
         if declined.__contains__('name'):
             name = ""
         else:
-            name = me['name']
+            if(me.__contains__("name")):
+                name = me['name']
+            else:
+                name=""
                 
         if declined.__contains__('user_birthday'):
             bd=""
         else:
-            bd=me['birthday']   
+            if(me.__contains__("birthday")):
+                bd=me['birthday']  
+            else:
+                bd="" 
         
         if declined.__contains__('user_posts'):
             posts=""  
         else:
-            posts=me['posts']
-            p=posts['data']
+            if(me.__contains__("posts")):
+                posts=me['posts']
+                p=posts['data']
+            else:
+                posts=""
 
         if declined.__contains__('user_likes'):
             likes=""  
         else:
-            likes=me['likes']
-            l=likes['data']
-            print(json.dumps(l))
+            if(me.__contains__("likes")):
+                likes=me['likes']
+                l=likes['data']
+                #print(json.dumps(l))
+            else:
+                likes=""
         
-        
-        email=me['email']
+        if(me.__contains__("email")):
+            email=me['email']
+        else:
+            email=""
         
 
         db.facebook.update_one({"_id":id},{
@@ -182,81 +196,85 @@ def zozo():
         
 
         #print(json.dumps(p))
+        if(me.__contains__("posts")):
+            j = 0
+            while j < len(p):
 
-        j = 0
-        while j < len(p):
+                message= p[j].get("message", "empty")
+                story =  p[j].get("story", "empty")
 
-            message= p[j].get("message", "empty")
-            story =  p[j].get("story", "empty")
+                if(story=="empty"):
+                    db.posts.update_one({"_id": p[j].get("id")},{
+                        "$set": {
+                        "_id": p[j].get("id"),
+                        "message": message ,
+                        "story": "",
+                        "created_time": p[j].get("created_time"),
+                        "users_id": id
+                    }},  upsert=True)
 
-            if(story=="empty"):
-                db.posts.update_one({"_id": p[j].get("id")},{
-                    "$set": {
-                    "_id": p[j].get("id"),
-                    "message": message ,
-                    "story": "",
-                    "created_time": p[j].get("created_time"),
-                    "users_id": id
-                }},  upsert=True)
+                elif(message=="empty"):
+                    db.posts.update_one({"_id": p[j].get("id")},{
+                        "$set": {
+                        "_id": p[j].get("id"),
+                        "message": "",
+                        "story": story,
+                        "created_time": p[j].get("created_time"),
+                        "users_id": id
+                    }},  upsert=True)
+                
+                else:
+                    db.posts.update_one({"_id": p[j].get("id")},{
+                        "$set": {
+                        "_id": p[j].get("id"),
+                        "message": message,
+                        "story": story,
+                        "created_time": p[j].get("created_time"),
+                        "users_id": id
+                    }},  upsert=True)
+                        
+                #print(json.dumps(p[j]))
+                j += 1
+        else:
+            posts=""
+        if(me.__contains__("likes")):
+            k=0
+            while k < len(l):
+                likeName=l[k].get("name","empty")
+                about=l[k].get("about","empty")
+                if (likeName=="empty"):
 
-            elif(message=="empty"):
-                db.posts.update_one({"_id": p[j].get("id")},{
-                    "$set": {
-                    "_id": p[j].get("id"),
-                    "message": "",
-                    "story": story,
-                    "created_time": p[j].get("created_time"),
-                    "users_id": id
-                }},  upsert=True)
-            
-            else:
-                db.posts.update_one({"_id": p[j].get("id")},{
-                    "$set": {
-                    "_id": p[j].get("id"),
-                    "message": message,
-                    "story": story,
-                    "created_time": p[j].get("created_time"),
-                    "users_id": id
-                }},  upsert=True)
-                    
-            #print(json.dumps(p[j]))
-            j += 1
+                    db.likes.update_one({"_id": l[k].get("id")},{
+                        "$set":{
+                        "_id":l[k].get("id"),
+                        "name":"",
+                        "about":about,
+                        "user_id":id
+                    }},  upsert=True)
+                
+                elif(about=="empty"):
+                    db.likes.update_one({"_id": l[k].get("id")},{
+                        "$set":{
+                        "_id":l[k].get("id"),
+                        "name":likeName,
+                        "about":"",
+                        "user_id":id
+                    }},  upsert=True)
+                
+                else:
+                    db.likes.update_one({"_id": l[k].get("id")},{
+                        "$set":{
+                        "_id":l[k].get("id"),
+                        "name":likeName,
+                        "about":about,
+                        "user_id":id
+                    }},  upsert=True) 
 
-        k=0
-        while k < len(l):
-            likeName=l[k].get("name","empty")
-            about=l[k].get("about","empty")
-            if (likeName=="empty"):
-
-                db.likes.update_one({"_id": l[k].get("id")},{
-                    "$set":{
-                    "_id":l[k].get("id"),
-                    "name":"",
-                    "about":about,
-                    "user_id":id
-                }},  upsert=True)
-            
-            elif(about=="empty"):
-                db.likes.update_one({"_id": l[k].get("id")},{
-                    "$set":{
-                    "_id":l[k].get("id"),
-                    "name":likeName,
-                    "about":"",
-                    "user_id":id
-                }},  upsert=True)
-            
-            else:
-                db.likes.update_one({"_id": l[k].get("id")},{
-                    "$set":{
-                    "_id":l[k].get("id"),
-                    "name":likeName,
-                    "about":about,
-                    "user_id":id
-                }},  upsert=True) 
-
-            k+=1
-            print(k)
-        
+                k+=1
+         
+                print(k)
+        else:
+            likes=""  
 
         #print(name)
         #friends= graph.request('/me/friends')
