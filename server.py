@@ -121,149 +121,153 @@ def zozo():
     #Exchanging Code for an Access Token
     r=requests.get('https://graph.facebook.com/v2.12/oauth/access_token?client_id={}&redirect_uri={}&client_secret={}&code={}'.format(FACEBOOK_APP_ID,'http://localhost:8080/facebook',FACEBOOK_APP_SECRET,code))
     dataFacebook = r.json()
-    access_token=dataFacebook['access_token']
-    #print(access_token)
+    if(dataFacebook.__contains__("access_token")):
 
-    graph = facebook.GraphAPI(access_token)
-    permissions=requests.get('https://graph.facebook.com/me/permissions?access_token='+access_token)
-    permissionsJson=permissions.json()
-    
-    declined=[]
-    #print(json.dumps(permissions.json()))
-    i = 0
-    while i < len(permissionsJson['data']):
-        #print(json.dumps(permissionsJson['data'][i]))
-        if permissionsJson['data'][i]['status']=='declined':
-            declined.append(permissionsJson['data'][i]['permission'])
-        i += 1
-    print(declined)
-    # me is of type dictionary
-    me= graph.get_object('/me?fields=id,name,likes.limit(10){about,name},posts.since(2018).limit(10),birthday,email')
-    #print(permissions.json())
-    id=me['id']
-    if declined.__contains__('name'):
-        name = ""
-    else:
-        name = me['name']
+        access_token=dataFacebook['access_token']
+        #print(access_token)
+
+        graph = facebook.GraphAPI(access_token)
+        permissions=requests.get('https://graph.facebook.com/me/permissions?access_token='+access_token)
+        permissionsJson=permissions.json()
+        
+        declined=[]
+        #print(json.dumps(permissions.json()))
+        i = 0
+        while i < len(permissionsJson['data']):
+            #print(json.dumps(permissionsJson['data'][i]))
+            if permissionsJson['data'][i]['status']=='declined':
+                declined.append(permissionsJson['data'][i]['permission'])
+            i += 1
+        print(declined)
+        # me is of type dictionary
+        me= graph.get_object('/me?fields=id,name,likes.limit(10){about,name},posts.since(2018).limit(10),birthday,email')
+        #print(permissions.json())
+        id=me['id']
+        if declined.__contains__('name'):
+            name = ""
+        else:
+            name = me['name']
+                
+        if declined.__contains__('user_birthday'):
+            bd=""
+        else:
+            bd=me['birthday']   
+        
+        if declined.__contains__('user_posts'):
+            posts=""  
+        else:
+            posts=me['posts']
+            p=posts['data']
+
+        if declined.__contains__('user_likes'):
+            likes=""  
+        else:
+            likes=me['likes']
+            l=likes['data']
+            print(json.dumps(l))
+        
+        
+        email=me['email']
+        
+
+        db.facebook.update_one({"_id":id},{
+            "$set":{
+            "_id":id,
+            "name":name,
+            "email":email,
+            "birthday":bd
+        }},  upsert=True)
+
+    # postsJson=posts.json()
+        
+
+        #print(json.dumps(p))
+
+        j = 0
+        while j < len(p):
+
+            message= p[j].get("message", "empty")
+            story =  p[j].get("story", "empty")
+
+            if(story=="empty"):
+                db.posts.update_one({"_id": p[j].get("id")},{
+                    "$set": {
+                    "_id": p[j].get("id"),
+                    "message": message ,
+                    "story": "",
+                    "created_time": p[j].get("created_time"),
+                    "users_id": id
+                }},  upsert=True)
+
+            elif(message=="empty"):
+                db.posts.update_one({"_id": p[j].get("id")},{
+                    "$set": {
+                    "_id": p[j].get("id"),
+                    "message": "",
+                    "story": story,
+                    "created_time": p[j].get("created_time"),
+                    "users_id": id
+                }},  upsert=True)
             
-    if declined.__contains__('user_birthday'):
-        bd=""
-    else:
-        bd=me['birthday']   
-    
-    if declined.__contains__('user_posts'):
-        posts=""  
-    else:
-        posts=me['posts']
-        p=posts['data']
+            else:
+                db.posts.update_one({"_id": p[j].get("id")},{
+                    "$set": {
+                    "_id": p[j].get("id"),
+                    "message": message,
+                    "story": story,
+                    "created_time": p[j].get("created_time"),
+                    "users_id": id
+                }},  upsert=True)
+                    
+            #print(json.dumps(p[j]))
+            j += 1
 
-    if declined.__contains__('user_likes'):
-        likes=""  
-    else:
-        likes=me['likes']
-        l=likes['data']
-        print(json.dumps(l))
-    
-    
-    email=me['email']
-    
+        k=0
+        while k < len(l):
+            likeName=l[k].get("name","empty")
+            about=l[k].get("about","empty")
+            if (likeName=="empty"):
 
-    db.facebook.update_one({"_id":id},{
-        "$set":{
-        "_id":id,
-        "name":name,
-        "email":email,
-        "birthday":bd
-       }},  upsert=True)
+                db.likes.update_one({"_id": l[k].get("id")},{
+                    "$set":{
+                    "_id":l[k].get("id"),
+                    "name":"",
+                    "about":about,
+                    "user_id":id
+                }},  upsert=True)
+            
+            elif(about=="empty"):
+                db.likes.update_one({"_id": l[k].get("id")},{
+                    "$set":{
+                    "_id":l[k].get("id"),
+                    "name":likeName,
+                    "about":"",
+                    "user_id":id
+                }},  upsert=True)
+            
+            else:
+                db.likes.update_one({"_id": l[k].get("id")},{
+                    "$set":{
+                    "_id":l[k].get("id"),
+                    "name":likeName,
+                    "about":about,
+                    "user_id":id
+                }},  upsert=True) 
 
-   # postsJson=posts.json()
-    
-
-    #print(json.dumps(p))
-
-    j = 0
-    while j < len(p):
-
-        message= p[j].get("message", "empty")
-        story =  p[j].get("story", "empty")
-
-        if(story=="empty"):
-            db.posts.update_one({"_id": p[j].get("id")},{
-                "$set": {
-                "_id": p[j].get("id"),
-                "message": message ,
-                "story": "",
-                "created_time": p[j].get("created_time"),
-                "users_id": id
-            }},  upsert=True)
-
-        elif(message=="empty"):
-            db.posts.update_one({"_id": p[j].get("id")},{
-                "$set": {
-                "_id": p[j].get("id"),
-                "message": "",
-                "story": story,
-                "created_time": p[j].get("created_time"),
-                "users_id": id
-            }},  upsert=True)
+            k+=1
+            print(k)
         
-        else:
-            db.posts.update_one({"_id": p[j].get("id")},{
-                "$set": {
-                "_id": p[j].get("id"),
-                "message": message,
-                "story": story,
-                "created_time": p[j].get("created_time"),
-                "users_id": id
-            }},  upsert=True)
-                 
-        #print(json.dumps(p[j]))
-        j += 1
 
-    k=0
-    while k < len(l):
-        likeName=l[k].get("name","empty")
-        about=l[k].get("about","empty")
-        if (likeName=="empty"):
+        #print(name)
+        #friends= graph.request('/me/friends')
+        #data_friends=friends['data']
+        #print(me)
+        #print(friends)
+        #print(data_friends)
 
-            db.likes.update_one({"_id": l[k].get("id")},{
-                "$set":{
-                "_id":l[k].get("id"),
-                "name":"",
-                "about":about,
-                "user_id":id
-            }},  upsert=True)
-        
-        elif(about=="empty"):
-            db.likes.update_one({"_id": l[k].get("id")},{
-                "$set":{
-                "_id":l[k].get("id"),
-                "name":likeName,
-                "about":"",
-                "user_id":id
-            }},  upsert=True)
-        
-        else:
-            db.likes.update_one({"_id": l[k].get("id")},{
-                "$set":{
-                "_id":l[k].get("id"),
-                "name":likeName,
-                "about":about,
-                "user_id":id
-            }},  upsert=True) 
-
-        k+=1
-        print(k)
-      
-
-    #print(name)
-    #friends= graph.request('/me/friends')
-    #data_friends=friends['data']
-    #print(me)
-    #print(friends)
-    #print(data_friends)
-
-    return 'Done'
+        return 'Done'
+    else:
+        return 'please provide app with needed permissions'
 
 
   
