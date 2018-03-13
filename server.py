@@ -35,7 +35,7 @@ def hello():
     payload = {
 "clientId":"22CMZV",
 "grant_type":"authorization_code",
-"redirect_uri":"http://localhost:8080",
+"redirect_uri":"http://10.0.2.2:8080",
 "code":code
     }
     
@@ -49,54 +49,67 @@ def hello():
     data=r.json()
     #print(r.content)
     # g=data['content'][0]
-    access_token=data['access_token']
-    print(access_token)
+    if(data.__contains__("access_token")):
+        access_token=data['access_token']
+        print(access_token)
+        
+        headers1 = {
+            'Authorization': 'Bearer '+ access_token
+    }
     
-    headers1 = {
-        'Authorization': 'Bearer '+ access_token
-   }
-   
-    
-    r2 = requests.get('https://api.fitbit.com/1/user/-/profile.json', headers=headers1)
-    resp=r2
-    #print(r2.content)
-    data2=r2.json()
-    user=data2['user']
-    
-    global data 
-    global json_data
-    data['key'] = user
-    json_data = json.dumps(data)
-    #print(json_data)
+        
+        r2 = requests.get('https://api.fitbit.com/1/user/-/profile.json', headers=headers1)
+        resp=r2
+        #print(r2.content)
+        data2=r2.json()
+        if(data2.__contains__("user")):
 
-    return json.dumps(r2.json())
+            user=data2['user']
+            
+            global data 
+            global json_data
+            data['key'] = user
+            json_data = json.dumps(data)
+            #print(json_data)
+
+        return json.dumps(r2.json())
+    else:
+        return "you donot provide the app with needed permissions"
 
     #debug=True print out errors on the web page
 
 @app.route("/response")
 def response():
-    user_id = request.args.get('user_id')
-    key=data.get("key")
-    fullName=key.get("fullName")
-    birthdayFitness=key.get("dateOfBirth")
-    id=data.get("user_id")
-    height=key.get("height")
-    heightString=str(height)
-    weight=key.get("weight")
-    weightString=str(weight)
-    
+    user_id2 = request.args.get('database_id')
+    print(str(user_id2)+"here")
+    if(data.__contains__("key")):
+        key=data.get("key")
+        print("key")
 
-    db.fitness.update_one({"user_ID":user_id},{
-       "$set":{
-        "_id":id,
-        "name":fullName,
-        "birthday":birthdayFitness,
-        "height":heightString,
-        "weight":weightString,
-        "user_ID": user_id
-       }}
-      ,  upsert=True )
-  #print(json_data)
+        if(key.__contains__("fullName")):
+            fullName=key.get("fullName")
+        if(key.__contains__("dateOfBirth")):
+            birthdayFitness=key.get("dateOfBirth")
+        if(data.__contains__("user_id")):
+            client_id=data.get("user_id")
+        if(key.__contains__("height")):
+            height=key.get("height")
+            heightString=str(height)
+        if(key.__contains__("weight")):
+            weight=key.get("weight")
+            weightString=str(weight)
+            db.fitness.update_one({"user_ID":user_id2},{
+            "$set":{
+                "client_id":client_id,
+                "name":fullName,
+                "birthday":birthdayFitness,
+                "height":heightString,
+                "weight":weightString,
+                "user_ID":str(user_id2)
+            }}
+            ,  upsert=True )
+
+    #print(json_data)
     return json_data
 
 @app.route("/facebook")
@@ -107,8 +120,8 @@ def zozo():
     # print(code)
     #Exchanging Code for an Access Token
     r=requests.get('https://graph.facebook.com/v2.12/oauth/access_token?client_id={}&redirect_uri={}&client_secret={}&code={}'.format(FACEBOOK_APP_ID,'http://localhost:8080/facebook',FACEBOOK_APP_SECRET,code))
-    data = r.json()
-    access_token=data['access_token']
+    dataFacebook = r.json()
+    access_token=dataFacebook['access_token']
     #print(access_token)
 
     graph = facebook.GraphAPI(access_token)
