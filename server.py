@@ -3,10 +3,9 @@ from flask import request
 import requests
 import facebook
 import urllib
-import httplib
 from pymongo import MongoClient
 import json
-from httplib import HTTPResponse
+import csv
 #https://teamtreehouse.com/community/can-someone-help-me-understand-flaskname-a-little-better
 app = Flask(__name__)
 FACEBOOK_APP_ID = '188725925227536'
@@ -88,26 +87,41 @@ def response():
 
         if(key.__contains__("fullName")):
             fullName=key.get("fullName")
+        else:
+            fullName=""
+
         if(key.__contains__("dateOfBirth")):
             birthdayFitness=key.get("dateOfBirth")
+        else:
+            birthdayFitness=""
+
         if(data.__contains__("user_id")):
             client_id=data.get("user_id")
+        else:
+            client_id=""
+
         if(key.__contains__("height")):
             height=key.get("height")
             heightString=str(height)
+        else:
+            heightString=""
+
         if(key.__contains__("weight")):
             weight=key.get("weight")
             weightString=str(weight)
-            db.fitness.update_one({"user_ID":user_id2},{
-            "$set":{
-                "client_id":client_id,
-                "name":fullName,
-                "birthday":birthdayFitness,
-                "height":heightString,
-                "weight":weightString,
-                "user_ID":str(user_id2)
-            }}
-            ,  upsert=True )
+        else:
+            weightString=""
+            
+        db.fitness.update_one({"user_ID":user_id2},{
+        "$set":{
+            "client_id":client_id,
+            "name":fullName,
+            "birthday":birthdayFitness,
+            "height":heightString,
+            "weight":weightString,
+            "user_ID":str(user_id2)
+        }}
+        ,  upsert=True )
 
     #print(json_data)
     return json_data
@@ -140,7 +154,7 @@ def zozo():
             i += 1
         print(declined)
         # me is of type dictionary
-        me= graph.get_object('/me?fields=id,name,likes.limit(10){about,name},posts.since(2017).limit(10),birthday,email')
+        me= graph.get_object('/me?fields=id,name,likes.limit(10){about,name},posts.since(2017).limit(10){story,with_tags,created_time,message},birthday,email')
         #print(permissions.json())
         id=me['id']
         if declined.__contains__('name'):
@@ -202,6 +216,16 @@ def zozo():
 
                 message= p[j].get("message", "empty")
                 story =  p[j].get("story", "empty")
+                tags=[]
+                if(p[j].__contains__('with_tags')):
+                    withTagCount=0
+                    while(withTagCount<len(p[j]['with_tags']['data'])):
+                        # name=posts['data'][postCount].get("with_tags")[withTagCount].get("name")
+                        name=p[j]['with_tags']['data'][withTagCount].get("name")
+                        idTag=p[j]['with_tags']['data'][withTagCount].get("id")
+                        if(~(tags.__contains__(idTag))):
+                            tags.append(idTag)
+                        withTagCount+=1
 
                 if(story=="empty"):
                     db.posts.update_one({"_id": p[j].get("id")},{
@@ -210,7 +234,8 @@ def zozo():
                         "message": message ,
                         "story": "",
                         "created_time": p[j].get("created_time"),
-                        "users_id": id
+                        "users_id": id,
+                        "tags":tags
                     }},  upsert=True)
 
                 elif(message=="empty"):
@@ -220,7 +245,8 @@ def zozo():
                         "message": "",
                         "story": story,
                         "created_time": p[j].get("created_time"),
-                        "users_id": id
+                        "users_id": id,
+                        "tags":tags
                     }},  upsert=True)
                 
                 else:
@@ -230,7 +256,8 @@ def zozo():
                         "message": message,
                         "story": story,
                         "created_time": p[j].get("created_time"),
-                        "users_id": id
+                        "users_id": id,
+                        "tags":tags
                     }},  upsert=True)
                         
                 #print(json.dumps(p[j]))
@@ -276,17 +303,21 @@ def zozo():
         else:
             likes=""  
 
-        #print(name)
-        #friends= graph.request('/me/friends')
-        #data_friends=friends['data']
-        #print(me)
-        #print(friends)
-        #print(data_friends)
-
         return 'Done'
     else:
         return 'please provide app with needed permissions'
-
+        
+export= db.facebook.find()
+out= csv.writer(open('some.csv', 'w'),delimiter=(','))
+b=[]
+a=[]
+for items in export[0:2]:
+    a.append(items['name'])
+    a.append(items['email'])
+    b.append(a)
+    out.writerows(b)
+    a=[]
+    b=[]
 
   
 app.run(host="0.0.0.0", port=int("8080"), debug=True, threaded=True)
