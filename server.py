@@ -2,7 +2,6 @@ from flask import Flask
 from flask import request
 import requests
 import facebook
-import urllib
 from pymongo import MongoClient
 import json
 import csv
