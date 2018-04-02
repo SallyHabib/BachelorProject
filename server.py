@@ -5,7 +5,16 @@ import facebook
 from pymongo import MongoClient
 import json
 import csv
-#https://teamtreehouse.com/community/can-someone-help-me-understand-flaskname-a-little-better
+import nltk
+from nltk.corpus import wordnet
+from nltk import pos_tag
+from nltk import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+from nltk.stem import  WordNetLemmatizer as wnl
+from nltk.corpus import wordnet as wn
+import re
+
 app = Flask(__name__)
 FACEBOOK_APP_ID = '188725925227536'
 FACEBOOK_APP_SECRET = '76cf7f4e23189441ed6a416f99380a2c'
@@ -306,17 +315,51 @@ def zozo():
     else:
         return 'please provide app with needed permissions'
         
-export= db.facebook.find()
-out= csv.writer(open('some.csv', 'w'),delimiter=(','))
-b=[]
-a=[]
-for items in export[0:2]:
-    a.append(items['name'])
-    a.append(items['email'])
-    b.append(a)
-    out.writerows(b)
-    a=[]
-    b=[]
+# export= db.posts.find()
+# out= csv.writer(open('some.csv', 'wb'),delimiter=(','))
+# b=[]
+# a=[]
+# for items in export:
+#     a.append(items['story'].encode("utf-8"))
+#     a.append(items['created_time'].encode("utf-8"))
+#     a.append(items['message'].encode("utf-8"))
+#     b.append(a)
+#     out.writerows(b)
+#     a=[]
+#     b=[]
+def get_wordnet_pos(treebank_tag):
+
+        if treebank_tag.startswith('J'):
+            return wordnet.ADJ
+        elif treebank_tag.startswith('V'):
+            return wordnet.VERB
+        elif treebank_tag.startswith('N'):
+            return wordnet.NOUN
+        elif treebank_tag.startswith('R'):
+            return wordnet.ADV
+        else:
+            return ''
+# def clean(words):
+
+#     lemmatiser = wnl()
+#     # words = re.sub('[^a-zA-Z]', '', words.lower()).split()
+#     words=words.lower().split()
+#     words_tag = dict(pos_tag(words))
+#     words = [word for word in words if
+#                 not word in set(stopwords.words('english')) and  not word.isdigit() ]
+#     print(words)
+#     words = [lemmatiser.lemmatize(word, get_wordnet_pos(words_tag.get(word)))for word in words ]
+#     print(words)
+#     words = ' '.join(words)
+#     return words
+   
+# corpus = []
+# with open('some.csv') as File:
+#     spamreader = csv.reader(File)
+#     for row in spamreader:
+#         print("l")
+#         corpus.append(clean(row[0]))
+# print(corpus)
 
   
 app.run(host="0.0.0.0", port=int("8080"), debug=True, threaded=True)
