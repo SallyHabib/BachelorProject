@@ -13,7 +13,10 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.stem import  WordNetLemmatizer as wnl
 from nltk.corpus import wordnet as wn
+from nltk.tokenize import TweetTokenizer
 import re
+import string
+import codecs
 
 app = Flask(__name__)
 FACEBOOK_APP_ID = '188725925227536'
@@ -23,7 +26,7 @@ FACEBOOK_APP_SECRET = '76cf7f4e23189441ed6a416f99380a2c'
 client = MongoClient("mongodb://SallyHabib1:Jesus2016@ds119810.mlab.com:19810/mylife")
 db = client['mylife']
 coll = db['facebook']
-print(coll)
+#print(coll)
 
 global resp
 global data
@@ -240,7 +243,7 @@ def zozo():
                         "$set": {
                         "_id": p[j].get("id"),
                         "message": message ,
-                        "story": "",
+                        "story": "below",
                         "created_time": p[j].get("created_time"),
                         "users_id": id,
                         "tags":tags
@@ -250,7 +253,7 @@ def zozo():
                     db.posts.update_one({"_id": p[j].get("id")},{
                         "$set": {
                         "_id": p[j].get("id"),
-                        "message": "",
+                        "message": "below",
                         "story": story,
                         "created_time": p[j].get("created_time"),
                         "users_id": id,
@@ -315,51 +318,18 @@ def zozo():
     else:
         return 'please provide app with needed permissions'
         
-# export= db.posts.find()
-# out= csv.writer(open('some.csv', 'wb'),delimiter=(','))
-# b=[]
-# a=[]
-# for items in export:
-#     a.append(items['story'].encode("utf-8"))
-#     a.append(items['created_time'].encode("utf-8"))
-#     a.append(items['message'].encode("utf-8"))
-#     b.append(a)
-#     out.writerows(b)
-#     a=[]
-#     b=[]
-def get_wordnet_pos(treebank_tag):
-
-        if treebank_tag.startswith('J'):
-            return wordnet.ADJ
-        elif treebank_tag.startswith('V'):
-            return wordnet.VERB
-        elif treebank_tag.startswith('N'):
-            return wordnet.NOUN
-        elif treebank_tag.startswith('R'):
-            return wordnet.ADV
-        else:
-            return ''
-# def clean(words):
-
-#     lemmatiser = wnl()
-#     # words = re.sub('[^a-zA-Z]', '', words.lower()).split()
-#     words=words.lower().split()
-#     words_tag = dict(pos_tag(words))
-#     words = [word for word in words if
-#                 not word in set(stopwords.words('english')) and  not word.isdigit() ]
-#     print(words)
-#     words = [lemmatiser.lemmatize(word, get_wordnet_pos(words_tag.get(word)))for word in words ]
-#     print(words)
-#     words = ' '.join(words)
-#     return words
-   
-# corpus = []
-# with open('some.csv') as File:
-#     spamreader = csv.reader(File)
-#     for row in spamreader:
-#         print("l")
-#         corpus.append(clean(row[0]))
-# print(corpus)
+export= db.posts.find()
+out= csv.writer(open('some.csv', 'wb'),delimiter=(','))
+b=[]
+a=[]
+for items in export:
+    a.append(items['story'].encode("utf-8").strip())
+    a.append(items['message'].encode("utf-8").strip())
+    a.append(items['created_time'].encode("utf-8").strip())
+    b.append(a)
+    out.writerows(b)
+    a=[]
+    b=[]
 
   
 app.run(host="0.0.0.0", port=int("8080"), debug=True, threaded=True)
