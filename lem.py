@@ -14,6 +14,7 @@ from nltk.stem.porter import PorterStemmer
 from nltk.stem import  WordNetLemmatizer as wnl
 from nltk.corpus import wordnet as wn
 from nltk.tokenize import TweetTokenizer
+from sklearn.decomposition import NMF, LatentDirichletAllocation
 import re
 import string
 import codecs
@@ -48,6 +49,12 @@ def lima(word, words):
     # else:
     #     return word
 
+def display_topics(model, feature_names, no_top_words):
+    for topic_idx, topic in enumerate(model.components_):
+        print "Topic %d:" % (topic_idx)
+        print " ".join([feature_names[i].encode("utf-8")
+                        for i in topic.argsort()[:-no_top_words - 1:-1]])
+
 
 def clean(words):
     # words = re.sub('[^a-zA-Z]', '', words.lower()).split()
@@ -71,18 +78,23 @@ def clean(words):
     #  lemmatiser.lemmatize(word, get_wordnet_pos(words_tag.get(word)))
     # words = re.sub('[^a-zA-Z]', 'pp', words.lower()).split()
 corpus = []
-with open('user_posts.csv') as File:
+with open('user_likes_1641812829207516.csv') as File:
     spamreader = csv.reader(File)
     for row in spamreader:
         #print("l")
         corpus.append(clean(row[0]))
     #print(corpus)
 
-vectorizer = TfidfVectorizer(min_df=3)
+vectorizer = TfidfVectorizer(min_df=1)
 vectorizer.stop_words='english'
 X = vectorizer.fit_transform(corpus)
 idf = vectorizer.idf_
-print(X)
-print(vectorizer.vocabulary_)
+no_topics = 5
+# Run NMF
+nmf = NMF(n_components=no_topics, random_state=1, alpha=.1, l1_ratio=.5, init='nndsvd').fit(X)
+display_topics(nmf, vectorizer.get_feature_names(), 3)
+
+#print(X)
+#print(vectorizer.vocabulary_)
 #print dict(zip(vectorizer.get_feature_names(), idf))
 

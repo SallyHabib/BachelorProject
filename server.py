@@ -320,62 +320,7 @@ def zozo():
     else:
         return 'please provide app with needed permissions'
 
-# with open('some.csv', 'rb') as f:
-# 	reader = csv.reader(f)
-# 	for row in reader:
-# 		faceID=row[2]
-# 		export= db.posts.find({"users_id":faceID})
-# 		out= csv.writer(open('user_posts_'+faceID+'.csv', 'wb'),delimiter=(','))
-# 		b=[]
-# 		a=[]
-# 		for items in export:
-# 			a.append(items['message'].encode("utf-8"))
-# 			a.append(items['story'].encode("utf-8"))
-# 			a.append(items['_id'].encode("utf-8"))
-# 			a.append(items['created_time'])
-# 			b.append(a)
-# 			out.writerows(b)
-# 			a=[]
-# 			b=[]
-# 	likes= db.likes.find({"users_id":faceID})
-# 	out= csv.writer(open('user_likes_'+faceID+'.csv', 'wb'),delimiter=(','))
-# 	b=[]
-# 	a=[]
-# 	for items in likes:
-# 		a.append(items['name'].encode("utf-8"))
-# 		a.append(items['about'].encode("utf-8"))
-# 		a.append(items['category'].encode("utf-8"))
-# 		b.append(a)
-# 		out.writerows(b)
-# 		a=[]
-# 		b=[]
-     
-posts= db.posts.find()
-out= csv.writer(open('user_posts.csv', 'wb'),delimiter=(','))
-b=[]
-a=[]
-for items in posts:
-    a.append(items['message'].encode('utf-8'))
-    a.append(items['story'].encode("utf-8"))
-    a.append(items['_id'].encode("utf-8"))
-    a.append(items['tags'])
-    a.append(items['created_time'])
-    b.append(a)
-    out.writerows(b)
-    a=[]
-    b=[]
-likes= db.likes.find()
-out= csv.writer(open('user_likes.csv', 'wb'),delimiter=(','))
-b=[]
-a=[]
-for items in likes:
-    a.append(items['name'].encode("utf-8"))
-    a.append(items['about'].encode("utf-8"))
-    a.append(items['category'].encode("utf-8"))
-    b.append(a)
-    out.writerows(b)
-    a=[]
-    b=[]
+
 
 
   

@@ -5,7 +5,7 @@ import csv
 #corpus = ["This is very strange",
 #          "This is very nice"]
 corpus = []
-with open('some.csv') as File:
+with open('user_likes_1641812829207516') as File:
     tfidfReader = csv.reader(File)
     for row in tfidfReader:
         #print("l")
