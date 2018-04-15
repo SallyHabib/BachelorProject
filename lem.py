@@ -17,6 +17,10 @@ from nltk.tokenize import TweetTokenizer
 import re
 import string
 import codecs
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy
+import scipy
+import csv
 
 
 def get_wordnet_pos(treebank_tag):
@@ -52,7 +56,6 @@ def clean(words):
     # words=nltk.word_tokenize(words.lower())
     words = tknzr.tokenize(words)
     exclude = set(string.punctuation)
-    
     words = [word for word in words if
             not word in exclude]
     words_tag = dict(pos_tag(words))
@@ -60,7 +63,7 @@ def clean(words):
             not word in set(stopwords.words('english')) and not word.isdigit()]
     #print(words)
     words = [lima(word, words) for word in words]
-    print(words)
+    #print(words)
     words = ' '.join(words)
     return words
 
@@ -68,10 +71,18 @@ def clean(words):
     #  lemmatiser.lemmatize(word, get_wordnet_pos(words_tag.get(word)))
     # words = re.sub('[^a-zA-Z]', 'pp', words.lower()).split()
 corpus = []
-with open('some.csv') as File:
+with open('user_posts.csv') as File:
     spamreader = csv.reader(File)
     for row in spamreader:
-        print("l")
-        corpus.append(clean(row[1]))
-    print(corpus)
+        #print("l")
+        corpus.append(clean(row[0]))
+    #print(corpus)
+
+vectorizer = TfidfVectorizer(min_df=3)
+vectorizer.stop_words='english'
+X = vectorizer.fit_transform(corpus)
+idf = vectorizer.idf_
+print(X)
+print(vectorizer.vocabulary_)
+#print dict(zip(vectorizer.get_feature_names(), idf))
 
