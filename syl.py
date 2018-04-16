@@ -77,7 +77,7 @@ stopwords.append('.')
 sentence_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 word_tokenizer = nltk.tokenize.RegexpTokenizer(r'\w+')
 chapters=[]
-with open('user_posts_1812621802136880.csv') as File:
+with open('user_posts_1641812829207516.csv') as File:
     tfidfReader = csv.reader(File)
     for row in tfidfReader:
         chapters.append(clean(row[0]).encode('utf-8'))
@@ -122,5 +122,6 @@ for e, ch_text in enumerate(chapters):
 # apply whitening to decorrelate the features
 # Before running k-means, it is beneficial to rescale each feature dimension of the observation set with whitening.
 #  Each feature is divided by its standard deviation across all observations to give it unit variance.
+print(fvs_lexical)
 fvs_lexical = whiten(fvs_lexical)
 fvs_punct = whiten(fvs_punct)
