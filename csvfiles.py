@@ -4,6 +4,7 @@ import csv
 client = MongoClient("mongodb://SallyHabib1:Jesus2016@ds119810.mlab.com:19810/mylife")
 db = client['mylife']
 coll = db['facebook']
+kinds=[]
 
 with open('users.csv', 'rb') as f:
     reader = csv.reader(f)
@@ -21,23 +22,34 @@ with open('users.csv', 'rb') as f:
             if(not(items['message']=="below")):
                 if(items['story'].__contains__("updated")):
                     a.append("updated")
+                    kinds.append("updated")
                 else:
                     if(items['story'].__contains__("shared")):
                         a.append("shared")
+                        kinds.append("shared")
                     else:
                         if(items['story'].__contains__("added")):
                             a.append("added")
+                            kinds.append("added")
                         else:
-                            a.append("posted")
+                            if(items['story'].__contains__("celebrating")):
+                                a.append("shared")
+                                kinds.append("shared")
+                            else:
+                                a.append("posted")
+                                kinds.append("posted")
             else:
                 if(items['story'].__contains__("shared")):
                     a.append("shared")
+                    kinds.append("shared")
                 else:
                     if(items['story'].__contains__("updated")):
                         a.append("updated")
+                        kinds.append("updated")
                     else:
                         if(items['story'].__contains__("added")):
                             a.append("added")
+                            kinds.append("added")
             b.append(a)
             out.writerows(b)
             a=[]
@@ -66,5 +78,6 @@ with open('users.csv', 'rb') as f:
             out.writerows(f)
             e=[]
             f=[]
+    print(kinds)
      
      
