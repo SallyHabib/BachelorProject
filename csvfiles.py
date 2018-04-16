@@ -18,6 +18,26 @@ with open('users.csv', 'rb') as f:
             a.append(items['story'].encode("utf-8"))
             a.append(items['_id'].encode("utf-8"))
             a.append(items['created_time'])
+            if(not(items['message']=="below")):
+                if(items['story'].__contains__("updated")):
+                    a.append("updated")
+                else:
+                    if(items['story'].__contains__("shared")):
+                        a.append("shared")
+                    else:
+                        if(items['story'].__contains__("added")):
+                            a.append("added")
+                        else:
+                            a.append("posted")
+            else:
+                if(items['story'].__contains__("shared")):
+                    a.append("shared")
+                else:
+                    if(items['story'].__contains__("updated")):
+                        a.append("updated")
+                    else:
+                        if(items['story'].__contains__("added")):
+                            a.append("added")
             b.append(a)
             out.writerows(b)
             a=[]
@@ -48,42 +68,3 @@ with open('users.csv', 'rb') as f:
             f=[]
      
      
-# posts= db.posts.find()
-# out= csv.writer(open('user_posts.csv', 'wb'),delimiter=(','))
-# b=[]
-# a=[]
-# for items in posts:
-#     a.append(items['message'].encode('utf-8'))
-#     a.append(items['story'].encode("utf-8"))
-#     a.append(items['_id'].encode("utf-8"))
-#     a.append(items['tags'])
-#     a.append(items['created_time'])
-#     b.append(a)
-#     out.writerows(b)
-#     a=[]
-#     b=[]
-# likes= db.likes.find()
-# out= csv.writer(open('user_likes.csv', 'wb'),delimiter=(','))
-# b=[]
-# a=[]
-# for items in likes:
-#     a.append(items['name'].encode("utf-8"))
-#     a.append(items['about'].encode("utf-8"))
-#     a.append(items['category'].encode("utf-8"))
-#     b.append(a)
-#     out.writerows(b)
-#     a=[]
-#     b=[]
-
-# events= db.events.find()
-# out= csv.writer(open('user_events.csv', 'wb'),delimiter=(','))
-# b=[]
-# a=[]
-# for items in events:
-#     a.append(items['name'].encode("utf-8"))
-#     a.append(items['desc'].encode("utf-8"))
-#     a.append(items['status'].encode("utf-8"))
-#     b.append(a)
-#     out.writerows(b)
-#     a=[]
-#     b=[]
