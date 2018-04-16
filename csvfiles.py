@@ -78,6 +78,6 @@ with open('users.csv', 'rb') as f:
             out.writerows(f)
             e=[]
             f=[]
-    print(kinds)
+    #print(kinds)
      
      
