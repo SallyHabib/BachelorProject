@@ -25,7 +25,7 @@ postedMD=[]
 addedMD=[]
 
 
-with open('user_posts_10214280493341748.csv') as File:     
+with open('user_posts_10156140722734774.csv') as File:     
     tfidfReader = csv.reader(File)     
     for row in tfidfReader:
         datetime_object = datetime.strptime(row[3][:-4],"%Y-%m-%dT%H:%M:%S+")
@@ -73,21 +73,95 @@ with open('user_posts_10214280493341748.csv') as File:
                 updatedMD.append(1) 
 
 
-morning=len(sharedMorning)+len(postedMorning)+len(updatedMorning)+len(addedMorning)
-aft=len(sharedAft)+len(postedAft)+len(updatedAft)+len(addedAft)
-night=len(sharedN)+len(postedN)+len(updatedN)+len(addedN)
-md=len(sharedMD)+len(postedMD)+len(updatedMD)+len(addedMD)
+out= csv.writer(open('test.csv', 'wb'),delimiter=(','))
+b=[]
+a=[]
+a.append("value")
+a.append("timing")
+a.append("type")
+out.writerow(a)
+a=[]
+a.append(len(sharedMorning))
+a.append("morning")
+a.append("shared")
+out.writerow(a)
+a=[]
+a.append(len(updatedMorning))
+a.append("morning")
+a.append("updated")
+out.writerow(a)
+a=[]
+a.append(len(postedMorning))
+a.append("morning")
+a.append("posted")
+out.writerow(a)
+a=[]
+a.append(len(addedMorning))
+a.append("morning")
+a.append("added")
+out.writerow(a)
 
-sns.set_style("darkgrid")
-bar_plot = sns.barplot(x=["morning","afternoon","night","midnight"],
-y=[morning,aft,night,md],
-                        palette="muted",
-                      ).set_title("productivity of the user on facebook through a day")
-#plt.xticks(rotation=90)
-plt.show()
+a=[]
+a.append(len(sharedAft))
+a.append("afternoon")
+a.append("shared")
+out.writerow(a)
+a=[]
+a.append(len(updatedAft))
+a.append("afternoon")
+a.append("updated")
+out.writerow(a)
+a=[]
+a.append(len(postedAft))
+a.append("afternoon")
+a.append("posted")
+out.writerow(a)
+a=[]
+a.append(len(addedAft))
+a.append("afternoon")
+a.append("added")
+out.writerow(a)
 
+a=[]
+a.append(len(sharedN))
+a.append("night")
+a.append("shared")
+out.writerow(a)
+a=[]
+a.append(len(updatedN))
+a.append("night")
+a.append("updated")
+out.writerow(a)
+a=[]
+a.append(len(postedN))
+a.append("night")
+a.append("posted")
+out.writerow(a)
+a=[]
+a.append(len(addedN))
+a.append("night")
+a.append("added")
+out.writerow(a)
 
-
-
+a=[]
+a.append(len(sharedMD))
+a.append("midnight")
+a.append("shared")
+out.writerow(a)
+a=[]
+a.append(len(updatedMD))
+a.append("midnight")
+a.append("updated")
+out.writerow(a)
+a=[]
+a.append(len(postedMD))
+a.append("midnight")
+a.append("posted")
+out.writerow(a)
+a=[]
+a.append(len(addedMD))
+a.append("midnight")
+a.append("added")
+out.writerow(a)
 
 
