@@ -82,7 +82,7 @@ sns.set_style("darkgrid")
 bar_plot = sns.barplot(x=["morning","afternoon","night","midnight"],
 y=[morning,aft,night,md],
                         palette="muted",
-                      ).set_title("productivity of the user on facebook through a day")
+                      ).set_title("productivity of the user on facebook through a day"+"("+"not categorized"+")")
 #plt.xticks(rotation=90)
 plt.show()
 

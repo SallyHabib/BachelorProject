@@ -83,7 +83,7 @@ sns.set_style("darkgrid")
 bar_plot = sns.barplot(x=["shared","posted","updated","added"],
 y=[len(sharedN),len(postedN),len(updatedN),len(addedN)],
                         palette="muted",
-                      ).set_title("Morning Behavior for the user")
+                      ).set_title("Night Behavior for the user")
 #plt.xticks(rotation=90)
 plt.show()
 
