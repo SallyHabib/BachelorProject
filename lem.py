@@ -78,21 +78,21 @@ def clean(words):
     #  lemmatiser.lemmatize(word, get_wordnet_pos(words_tag.get(word)))
     # words = re.sub('[^a-zA-Z]', 'pp', words.lower()).split()
 corpus = []
-with open('user_posts_1641830899232981.csv') as File:
+with open('user_likes_10216219222701096.csv') as File:
     spamreader = csv.reader(File)
     for row in spamreader:
         #print("l")
-        corpus.append(clean(row[4]))
+        corpus.append(clean(row[2]))
     #print(corpus)
 
 vectorizer = TfidfVectorizer(min_df=1)
 vectorizer.stop_words='english'
 X = vectorizer.fit_transform(corpus)
 idf = vectorizer.idf_
-no_topics = 3
+no_topics = 10
 # Run NMF
 nmf = NMF(n_components=no_topics, random_state=1, alpha=.1, l1_ratio=.5, init='nndsvd').fit(X)
-display_topics(nmf, vectorizer.get_feature_names(), 1)
+display_topics(nmf, vectorizer.get_feature_names(), 2)
 
 #print(X)
 #print(vectorizer.vocabulary_)

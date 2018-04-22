@@ -58,6 +58,13 @@ with open('users.csv', 'rb') as f:
         out= csv.writer(open('user_likes_'+faceID+'.csv', 'wb'),delimiter=(','))
         c=[]
         d=[]
+        c.append("name")
+        c.append("about")
+        c.append("category")
+        d.append(c)
+        out.writerows(d)
+        c=[]
+        d=[]
         for items in likes:
             c.append(items['name'].encode("utf-8"))
             c.append(items['about'].encode("utf-8"))
