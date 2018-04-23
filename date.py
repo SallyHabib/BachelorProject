@@ -11,5 +11,8 @@ with open('user_posts_1641812829207516.csv') as File:
         hour=datetime_object.hour
         minute=datetime_object.minute
         sec=datetime_object.second
+        #print(datetime.today())
+        zozo=datetime(year, month, day)
+        print(zozo.weekday())
         i+=1
         

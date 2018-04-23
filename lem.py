@@ -78,7 +78,7 @@ def clean(words):
     #  lemmatiser.lemmatize(word, get_wordnet_pos(words_tag.get(word)))
     # words = re.sub('[^a-zA-Z]', 'pp', words.lower()).split()
 corpus = []
-with open('user_likes_10216219222701096.csv') as File:
+with open('user_likes_10156305351259583.csv') as File:
     spamreader = csv.reader(File)
     for row in spamreader:
         #print("l")
