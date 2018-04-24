@@ -1,7 +1,4 @@
-import pandas as pd
-import seaborn as sns
 import numpy as np
-import matplotlib.pyplot as plt
 import csv
 from datetime import datetime
 
@@ -213,6 +210,7 @@ while i < len(user_id):
     aft=len(sharedAft)+len(postedAft)+len(updatedAft)+len(addedAft)
     night=len(sharedN)+len(postedN)+len(updatedN)+len(addedN)
     md=len(sharedMD)+len(postedMD)+len(updatedMD)+len(addedMD)
+
     posted=len(postedAft)+len(postedMD)+len(postedMorning)+len(postedN)
     shared=len(sharedAft)+len(sharedMD)+len(sharedMorning)+len(sharedN)
     # print(shared)
@@ -220,10 +218,13 @@ while i < len(user_id):
     updated=len(updatedAft)+len(updatedMorning)+len(updatedN)+len(updatedMD)
     added=len(addedAft)+len(addedMD)+len(addedMorning)+len(addedN)
     difference=morning-md
+
     totalWorks=len(postsWorkdaysAdded)+len(postsWorkdaysShared)+len(postsWorkdaysUpdated)+len(postsWorkdaysPosted)
     totalWeekends=len(postsWeekendAdded)+len(postsWeekendPosted)+len(postsWeekendShared)+len(postsWeekendUpdated)
+
     average_nbr_posts_month=sum(months)/12.0
     average_nbr_posts_week=max(months)/4.0
+
     sharedRatio=(shared/total_posts)*100
     updateRatio=(updated/total_posts)*100
     addRatio=(added/total_posts)*100
@@ -370,10 +371,12 @@ while i < len(user_id):
         # a.append(months[11])
         a.append(average_nbr_posts_month)
         a.append(average_nbr_posts_week)
+
         a.append(sharedRatio)
         a.append(updateRatio)
         a.append(postRatio)
         a.append(addRatio)
+
         a.append(len(attended))
         a.append(len(unsure))
         #print(len(postsWeekendShared))
