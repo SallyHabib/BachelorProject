@@ -13,7 +13,7 @@ with open('users.csv', 'rb') as file:
         user_id.append(row[2]) 
 
 #intilization
-total_posts=0
+total_posts=0.0
 total_posts_per_year=0
 shared=0
 added=0
@@ -27,10 +27,6 @@ lang=[]
 months=[0]*12
 days=[0]*31
 daysX_monthsY=np.zeros([12,31])
-postLength=[]
-average_nbr_words=0
-urls=[]
-average_nbr_links=0
 average_nbr_posts_month=0
 sharedRatio=0
 updateRatio=0
@@ -83,8 +79,11 @@ print(activityMN)
 print(activityN)
 print(float(activityA/365.0))
 average_nbr_posts_month=sum(months)/12.0
+average_nbr_posts_week=max(months)/4.0
+print(average_nbr_posts_week)
 print(average_nbr_posts_month)
 print(months)
+print(months[4])
 
 sharedRatio=shared/total_posts
 updateRatio=updated/total_posts

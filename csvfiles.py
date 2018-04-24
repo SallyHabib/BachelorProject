@@ -36,8 +36,11 @@ with open('users.csv', 'rb') as f:
                                 a.append("shared")
                                 kinds.append("shared")
                             else:
-                                a.append("posted")
-                                kinds.append("posted")
+                                if(items['story'].__contains__("posted")):
+                                    a.append("posted")
+                                    kinds.append("posted")
+                                else:
+                                    a.append("posted")
             else:
                 if(items['story'].__contains__("shared")):
                     a.append("shared")
@@ -50,6 +53,8 @@ with open('users.csv', 'rb') as f:
                         if(items['story'].__contains__("added")):
                             a.append("added")
                             kinds.append("added")
+                        else:
+                            a.append("posted")
             b.append(a)
             out.writerows(b)
             a=[]
