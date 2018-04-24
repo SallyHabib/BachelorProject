@@ -48,6 +48,9 @@ postsWorkdaysUpdated=[]
 postsWorkdaysAdded=[]
 
 user_id=[]
+
+attended=[]
+unsure=[]
 with open('users.csv', 'rb') as zozoFile:
     user = csv.reader(zozoFile)
     for row in user:
@@ -57,7 +60,8 @@ with open('users.csv', 'rb') as zozoFile:
 i=0
 while i < len(user_id):
     path='user_posts_'+user_id[i]+'.csv'
-    print(path)
+    pathEvent='user_events_'+user_id[i]+'.csv'
+    #print(pathEvent)
     with open(path) as File:     
         tfidfReader = csv.reader(File)     
         for row in tfidfReader:
@@ -137,6 +141,15 @@ while i < len(user_id):
             if(year==2017 and month == 7 and day>=1 and day<8):
                 weekActivity+=1
                 #print(weekActivity)
+    
+
+    with open(pathEvent) as FileZ:     
+        tfidfReader2 = csv.reader(FileZ)     
+        for row in tfidfReader2:
+            if(row[2]=="attending"):
+                attended.append(1)
+            else:
+                unsure.append(1)
 
     morning=len(sharedMorning)+len(postedMorning)+len(updatedMorning)+len(addedMorning)
     aft=len(sharedAft)+len(postedAft)+len(updatedAft)+len(addedAft)
@@ -282,10 +295,57 @@ while i < len(user_id):
         a.append(updateRatio)
         a.append(postRatio)
         a.append(addRatio)
+        a.append(len(attended))
+        a.append(len(unsure))
         #print(len(postsWeekendShared))
         # a.append("midnight")
         # a.append("added")
         out.writerow(a)
-    i+=1
+    #print(len(attended))
+    total_posts=0.0
+    total_posts_per_year=0
+    weekActivity=0
+    months=[0]*12
+    daysX_monthsY=np.zeros([12,31])
+    average_nbr_posts_month=0
 
+    sharedRatio=0.0
+    updateRatio=0.0
+    addRatio=0.0
+    postRatio=0.0
+
+    sharedMorning=[] 
+    updatedMorning=[] 
+    postedMorning=[] 
+    addedMorning=[]
+
+    sharedAft=[] 
+    updatedAft=[] 
+    postedAft=[] 
+    addedAft=[]
+
+    sharedN=[] 
+    updatedN=[] 
+    postedN=[] 
+    addedN=[]
+
+    sharedMD=[] 
+    updatedMD=[] 
+    postedMD=[] 
+    addedMD=[]
+
+    postsWeekendShared=[]
+    postsWeekendPosted=[]
+    postsWeekendUpdated=[]
+    postsWeekendAdded=[]
+
+    postsWorkdaysShared=[]
+    postsWorkdaysPosted=[]
+    postsWorkdaysUpdated=[]
+    postsWorkdaysAdded=[]
+    
+    attended=[]
+    unsure=[]
+    i+=1
+    
 
