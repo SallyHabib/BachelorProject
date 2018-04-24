@@ -47,6 +47,28 @@ postsWorkdaysPosted=[]
 postsWorkdaysUpdated=[]
 postsWorkdaysAdded=[]
 
+postsWorkdaysSharedM=[]
+postsWorkdaysPostedM=[]
+postsWorkdaysUpdatedM=[]
+postsWorkdaysAddedM=[]
+
+postsWorkdaysSharedMD=[]
+postsWorkdaysPostedMD=[]
+postsWorkdaysUpdatedMD=[]
+postsWorkdaysAddedMD=[]
+
+postsWorkdaysSharedN=[]
+postsWorkdaysPostedN=[]
+postsWorkdaysUpdatedN=[]
+postsWorkdaysAddedN=[]
+
+postsWorkdaysSharedA=[]
+postsWorkdaysPostedA=[]
+postsWorkdaysUpdatedA=[]
+postsWorkdaysAddedA=[]
+
+
+
 user_id=[]
 
 attended=[]
@@ -128,12 +150,48 @@ while i < len(user_id):
             else:
                 if(row[4]=="posted"):
                     postsWorkdaysPosted.append(1)
+                    if(hour>=6 and hour <12):
+                        postsWorkdaysPostedM.append(1)
+                    elif(hour>=12 and hour <18):
+                        postsWorkdaysPostedA.append(1)
+                    elif(hour>=18 and hour <24):
+                        postsWorkdaysPostedN.append(1)
+                    elif(hour>=0 and hour <6):
+                        postsWorkdaysPostedMD.append(1)
+
                 elif(row[4]=="shared"):
                     postsWorkdaysShared.append(1)
+                    if(hour>=6 and hour <12):
+                        postsWorkdaysSharedM.append(1)
+                    elif(hour>=12 and hour <18):
+                        postsWorkdaysSharedA.append(1)
+                    elif(hour>=18 and hour <24):
+                        postsWorkdaysSharedN.append(1)
+                    elif(hour>=0 and hour <6):
+                        postsWorkdaysSharedMD.append(1)
+
                 elif(row[4]=="updated"):
                     postsWorkdaysUpdated.append(1)
+                    if(hour>=6 and hour <12):
+                        postsWorkdaysUpdatedM.append(1)
+                    elif(hour>=12 and hour <18):
+                        postsWorkdaysUpdatedA.append(1)
+                    elif(hour>=18 and hour <24):
+                        postsWorkdaysUpdatedN.append(1)
+                    elif(hour>=0 and hour <6):
+                        postsWorkdaysUpdatedMD.append(1)
+
                 elif(row[4]=="added"):
                     postsWorkdaysAdded.append(1)
+                    if(hour>=6 and hour <12):
+                        postsWorkdaysAddedM.append(1)
+                    elif(hour>=12 and hour <18):
+                        postsWorkdaysAddedA.append(1)
+                    elif(hour>=18 and hour <24):
+                        postsWorkdaysAddedN.append(1)
+                    elif(hour>=0 and hour <6):
+                        postsWorkdaysAddedMD.append(1)
+
             if(year==2017):
                 total_posts_per_year+=1
                 months[month-1]+=1
@@ -271,6 +329,27 @@ while i < len(user_id):
         a.append(len(postsWorkdaysPosted))
         a.append(len(postsWorkdaysShared))
         a.append(len(postsWorkdaysUpdated))
+
+        a.append(len(postsWorkdaysSharedM))
+        a.append(len(postsWorkdaysSharedA))
+        a.append(len(postsWorkdaysSharedN))
+        a.append(len(postsWorkdaysSharedN))
+        
+        a.append(len(postsWorkdaysPostedM))
+        a.append(len(postsWorkdaysPostedA))
+        a.append(len(postsWorkdaysPostedN))
+        a.append(len(postsWorkdaysPostedMD))
+
+        a.append(len(postsWorkdaysAddedM))
+        a.append(len(postsWorkdaysAddedA))
+        a.append(len(postsWorkdaysAddedN))
+        a.append(len(postsWorkdaysAddedMD))
+
+        a.append(len(postsWorkdaysUpdatedM))
+        a.append(len(postsWorkdaysUpdatedA))
+        a.append(len(postsWorkdaysUpdatedN))
+        a.append(len(postsWorkdaysUpdatedMD))
+
         a.append(totalWeekends)
         a.append(totalWorks)
         if(totalWeekends>totalWorks):
@@ -343,7 +422,27 @@ while i < len(user_id):
     postsWorkdaysPosted=[]
     postsWorkdaysUpdated=[]
     postsWorkdaysAdded=[]
-    
+
+    postsWorkdaysSharedM=[]
+    postsWorkdaysPostedM=[]
+    postsWorkdaysUpdatedM=[]
+    postsWorkdaysAddedM=[]
+
+    postsWorkdaysSharedMD=[]
+    postsWorkdaysPostedMD=[]
+    postsWorkdaysUpdatedMD=[]
+    postsWorkdaysAddedMD=[]
+
+    postsWorkdaysSharedN=[]
+    postsWorkdaysPostedN=[]
+    postsWorkdaysUpdatedN=[]
+    postsWorkdaysAddedN=[]
+
+    postsWorkdaysSharedA=[]
+    postsWorkdaysPostedA=[]
+    postsWorkdaysUpdatedA=[]
+    postsWorkdaysAddedA=[]
+
     attended=[]
     unsure=[]
     i+=1
