@@ -90,7 +90,7 @@ for e, ch_text in enumerate(chapters):
     ch_text = unicode(ch_text, errors='ignore')
 
     # note: the nltk.word_tokenize includes punctuation
-    print(ch_text)
+    # print(ch_text)
     if(ch_text):
         # ch_text.encode('utf-8')
         tokens = nltk.word_tokenize(ch_text.lower())
@@ -100,7 +100,7 @@ for e, ch_text in enumerate(chapters):
         sentences = sentence_tokenizer.tokenize(ch_text)
         if(words):
             vocab = set(words)
-            print(i)
+            # print(i)
             words_per_sentence = np.array([len(word_tokenizer.tokenize(s))
                                         for s in sentences])
             # print('w',words_per_sentence)
