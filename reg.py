@@ -21,11 +21,11 @@ with open("user.csv") as csvfile:
     reader = csv.reader(csvfile) # change contents to floats
     for row in reader: # each row is a list
         data.append(row)
-fvs_lexical = np.zeros((23, 33), np.float64)
+fvs_lexical = np.zeros((23, 48), np.float64)
 k=0
 z=0
 while(k<23):
-    while(z<33):
+    while(z<48):
         fvs_lexical[k, z] = data[k][z]
         z+=1
     z=0
@@ -55,11 +55,11 @@ with open("test.csv") as csvfile3:
     for row in reader3: # each row is a list
         data3.append(row)
         # print(row)
-fvs_lexical3 = np.zeros((1, 33), np.float64)
+fvs_lexical3 = np.zeros((1, 48), np.float64)
 kkk=0
 zzz=0
 while(kkk<1):
-    while(zzz<33):
+    while(zzz<48):
         fvs_lexical3[kkk, zzz] = data3[kkk][zzz]
         zzz+=1
     zzz=0
@@ -77,10 +77,11 @@ StandardScaler(copy=True, with_mean=True, with_std=True)
 X_train = scaler.transform(X_train)
 # print(X_train)
 X_test = scaler.transform(X_test)
-mlp = MLPRegressor(hidden_layer_sizes=(10,10,10),max_iter=5000)
+mlp = MLPRegressor(hidden_layer_sizes=(13,13,13),max_iter=5000)
 mlp.fit(X_train,y_train)
-predictions = mlp.predict(X_test)
-# print(X_test)
+# predictions = mlp.predict(X_test)
+# # print(X_test)
 testing_scalar=scaler.transform(fvs_lexical3)
 testing=mlp.predict(testing_scalar)
+# print(confusion_matrix(X_test,testing))
 print(testing)
