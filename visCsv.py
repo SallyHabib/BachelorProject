@@ -77,6 +77,7 @@ with open('users.csv', 'rb') as zozoFile:
 
 #path='user_posts_'+user_id[0]+'.csv'
 i=0
+print(len(user_id))
 while i < len(user_id):
     path='user_posts_'+user_id[i]+'.csv'
     pathEvent='user_events_'+user_id[i]+'.csv'
@@ -234,155 +235,149 @@ while i < len(user_id):
     out= csv.writer(open('user.csv', 'ab'),delimiter=(','))
 
     a=[]
-    if(i==0):
-        a.append("value")
-        a.append("timing")
-        a.append("type")
-        out.writerow(a)
-        a=[]
+   
+    a.append(len(sharedMorning))
+    # a.append("morning")
+    # a.append("shared")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(updatedMorning))
+    # a.append("morning")
+    # a.append("updated")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(postedMorning))
+    # a.append("morning")
+    # a.append("posted")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(addedMorning))
+    # a.append("morning")
+    # a.append("added")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(sharedAft))
+    # a.append("afternoon")
+    # a.append("shared")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(updatedAft))
+    # a.append("afternoon")
+    # a.append("updated")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(postedAft))
+    # a.append("afternoon")
+    # a.append("posted")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(addedAft))
+    # a.append("afternoon")
+    # a.append("added")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(sharedN))
+    # a.append("night")
+    # a.append("shared")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(updatedN))
+    # a.append("night")
+    # a.append("updated")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(postedN))
+    # a.append("night")
+    # a.append("posted")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(addedN))
+    # a.append("night")
+    # a.append("added")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(sharedMD))
+    # a.append("midnight")
+    # a.append("shared")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(updatedMD))
+    # a.append("midnight")
+    # a.append("updated")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(postedMD))
+    # a.append("midnight")
+    # a.append("posted")
+    # out.writerow(a)
+    # a=[]
+    a.append(len(addedMD))
+    a.append(morning)
+    a.append(aft)
+    a.append(night)
+    a.append(md)
+    a.append(difference)
+    a.append(len(postsWeekendAdded))
+    a.append(len(postsWeekendPosted))
+    a.append(len(postsWeekendShared))
+    a.append(len(postsWeekendUpdated))
+    a.append(len(postsWorkdaysAdded))
+    a.append(len(postsWorkdaysPosted))
+    a.append(len(postsWorkdaysShared))
+    a.append(len(postsWorkdaysUpdated))
+
+    a.append(len(postsWorkdaysSharedM))
+    a.append(len(postsWorkdaysSharedA))
+    a.append(len(postsWorkdaysSharedN))
+    a.append(len(postsWorkdaysSharedN))
+    
+    a.append(len(postsWorkdaysPostedM))
+    a.append(len(postsWorkdaysPostedA))
+    a.append(len(postsWorkdaysPostedN))
+    a.append(len(postsWorkdaysPostedMD))
+
+    a.append(len(postsWorkdaysAddedM))
+    a.append(len(postsWorkdaysAddedA))
+    a.append(len(postsWorkdaysAddedN))
+    a.append(len(postsWorkdaysAddedMD))
+
+    a.append(len(postsWorkdaysUpdatedM))
+    a.append(len(postsWorkdaysUpdatedA))
+    a.append(len(postsWorkdaysUpdatedN))
+    a.append(len(postsWorkdaysUpdatedMD))
+
+    a.append(totalWeekends)
+    a.append(totalWorks)
+    if(totalWeekends>totalWorks):
+        a.append(totalWeekends-totalWorks)
     else:
-        a.append(len(sharedMorning))
-        # a.append("morning")
-        # a.append("shared")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(updatedMorning))
-        # a.append("morning")
-        # a.append("updated")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(postedMorning))
-        # a.append("morning")
-        # a.append("posted")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(addedMorning))
-        # a.append("morning")
-        # a.append("added")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(sharedAft))
-        # a.append("afternoon")
-        # a.append("shared")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(updatedAft))
-        # a.append("afternoon")
-        # a.append("updated")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(postedAft))
-        # a.append("afternoon")
-        # a.append("posted")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(addedAft))
-        # a.append("afternoon")
-        # a.append("added")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(sharedN))
-        # a.append("night")
-        # a.append("shared")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(updatedN))
-        # a.append("night")
-        # a.append("updated")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(postedN))
-        # a.append("night")
-        # a.append("posted")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(addedN))
-        # a.append("night")
-        # a.append("added")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(sharedMD))
-        # a.append("midnight")
-        # a.append("shared")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(updatedMD))
-        # a.append("midnight")
-        # a.append("updated")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(postedMD))
-        # a.append("midnight")
-        # a.append("posted")
-        # out.writerow(a)
-        # a=[]
-        a.append(len(addedMD))
-        a.append(morning)
-        a.append(aft)
-        a.append(night)
-        a.append(md)
-        a.append(difference)
-        a.append(len(postsWeekendAdded))
-        a.append(len(postsWeekendPosted))
-        a.append(len(postsWeekendShared))
-        a.append(len(postsWeekendUpdated))
-        a.append(len(postsWorkdaysAdded))
-        a.append(len(postsWorkdaysPosted))
-        a.append(len(postsWorkdaysShared))
-        a.append(len(postsWorkdaysUpdated))
+        a.append(totalWorks-totalWeekends)
+    # a.append(months[0])
+    # a.append(months[1])
+    # a.append(months[2])
+    # # a.append(months[3])
+    # # a.append(months[4])
+    # a.append(months[5])
+    # a.append(months[6])
+    # # a.append(months[7])
+    # a.append(months[8])
+    # a.append(months[9])
+    # a.append(months[10])
+    # a.append(months[11])
+    a.append(average_nbr_posts_month)
+    a.append(average_nbr_posts_week)
 
-        a.append(len(postsWorkdaysSharedM))
-        a.append(len(postsWorkdaysSharedA))
-        a.append(len(postsWorkdaysSharedN))
-        a.append(len(postsWorkdaysSharedN))
-        
-        a.append(len(postsWorkdaysPostedM))
-        a.append(len(postsWorkdaysPostedA))
-        a.append(len(postsWorkdaysPostedN))
-        a.append(len(postsWorkdaysPostedMD))
+    a.append(sharedRatio)
+    a.append(updateRatio)
+    a.append(postRatio)
+    a.append(addRatio)
 
-        a.append(len(postsWorkdaysAddedM))
-        a.append(len(postsWorkdaysAddedA))
-        a.append(len(postsWorkdaysAddedN))
-        a.append(len(postsWorkdaysAddedMD))
-
-        a.append(len(postsWorkdaysUpdatedM))
-        a.append(len(postsWorkdaysUpdatedA))
-        a.append(len(postsWorkdaysUpdatedN))
-        a.append(len(postsWorkdaysUpdatedMD))
-
-        a.append(totalWeekends)
-        a.append(totalWorks)
-        if(totalWeekends>totalWorks):
-            a.append(totalWeekends-totalWorks)
-        else:
-            a.append(totalWorks-totalWeekends)
-        # a.append(months[0])
-        # a.append(months[1])
-        # a.append(months[2])
-        # # a.append(months[3])
-        # # a.append(months[4])
-        # a.append(months[5])
-        # a.append(months[6])
-        # # a.append(months[7])
-        # a.append(months[8])
-        # a.append(months[9])
-        # a.append(months[10])
-        # a.append(months[11])
-        a.append(average_nbr_posts_month)
-        a.append(average_nbr_posts_week)
-
-        a.append(sharedRatio)
-        a.append(updateRatio)
-        a.append(postRatio)
-        a.append(addRatio)
-
-        a.append(len(attended))
-        a.append(len(unsure))
-        #print(len(postsWeekendShared))
-        # a.append("midnight")
-        # a.append("added")
-        out.writerow(a)
+    a.append(len(attended))
+    a.append(len(unsure))
+    #print(len(postsWeekendShared))
+    # a.append("midnight")
+    # a.append("added")
+    out.writerow(a)
     #print(len(attended))
     total_posts=0.0
     total_posts_per_year=0
