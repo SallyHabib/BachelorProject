@@ -32,7 +32,7 @@ while(k<24):
     k+=1
 
 data2=[]
-with open("agr.csv") as csvfile2:
+with open("cons.csv") as csvfile2:
     reader2 = csv.reader(csvfile2) # change contents to floats
     for row in reader2: # each row is a list
         data2.append(row)
@@ -66,7 +66,7 @@ while(kkk<1):
     kkk+=1
 # print(fvs_lexical3)
 wine = pd.read_csv('user.csv')
-yy=pd.read_csv('agr.csv')
+yy=pd.read_csv('cons.csv')
 X = wine
 y = ravel(yy)
 # print(y)
@@ -77,7 +77,7 @@ StandardScaler(copy=True, with_mean=True, with_std=True)
 X_train = scaler.transform(X_train)
 # print(X_train)
 X_test = scaler.transform(X_test)
-mlp = MLPRegressor(hidden_layer_sizes=(10,10,10),max_iter=6000)
+mlp = MLPRegressor(hidden_layer_sizes=(8,8,8),max_iter=5000)
 mlp.fit(X_train,y_train)
 # predictions = mlp.predict(X_test)
 # # print(X_test)

@@ -32,7 +32,7 @@ while(k<24):
     k+=1
 
 data2=[]
-with open("extro.csv") as csvfile2:
+with open("extro2.csv") as csvfile2:
     reader2 = csv.reader(csvfile2) # change contents to floats
     for row in reader2: # each row is a list
         data2.append(row)
@@ -66,9 +66,9 @@ while(kkk<1):
     kkk+=1
 # print(fvs_lexical3)
 wine = pd.read_csv('user.csv')
-yy=pd.read_csv('extro.csv')
-X = fvs_lexical
-y = ravel(fvs_lexical2)
+yy=pd.read_csv('extro2.csv')
+X = wine
+y = ravel(yy)
 # print(y)
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 scaler = StandardScaler()
@@ -77,12 +77,12 @@ StandardScaler(copy=True, with_mean=True, with_std=True)
 X_train = scaler.transform(X_train)
 # print(X_train)
 X_test = scaler.transform(X_test)
-mlp = MLPRegressor(hidden_layer_sizes=(10,10,10),max_iter=6000)
+mlp = MLPRegressor(hidden_layer_sizes=(10,10,10),max_iter=5000)
 mlp.fit(X_train,y_train)
 # predictions = mlp.predict(X_test)
 # # print(X_test)
 # print(mlp.n_iter_)
-# testing_scalar=scaler.transform(fvs_lexical3)
-# testing=mlp.predict(testing_scalar)
-# # print(confusion_matrix(X_test,testing))
-# print(testing)
+testing_scalar=scaler.transform(fvs_lexical3)
+testing=mlp.predict(testing_scalar)
+# print(confusion_matrix(X_test,testing))
+print(testing)

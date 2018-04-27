@@ -12,43 +12,43 @@ from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
 from sklearn.metrics import classification_report,confusion_matrix
 
-results=np.zeros([24,31])
-results2=[]
-data=[]
-i=0
-j=1
-with open("user.csv") as csvfile:
-    reader = csv.reader(csvfile) # change contents to floats
-    for row in reader: # each row is a list
-        data.append(row)
-fvs_lexical = np.zeros((24, 56), np.float64)
-k=0
-z=0
-while(k<24):
-    while(z<56):
-        fvs_lexical[k, z] = data[k][z]
-        z+=1
-    z=0
-    k+=1
+# results=np.zeros([24,31])
+# results2=[]
+# data=[]
+# i=0
+# j=1
+# with open("user.csv") as csvfile:
+#     reader = csv.reader(csvfile) # change contents to floats
+#     for row in reader: # each row is a list
+#         data.append(row)
+# fvs_lexical = np.zeros((24, 56), np.float64)
+# k=0
+# z=0
+# while(k<24):
+#     while(z<56):
+#         fvs_lexical[k, z] = data[k][z]
+#         z+=1
+#     z=0
+#     k+=1
 
-data2=[]
-with open("agr.csv") as csvfile2:
-    reader2 = csv.reader(csvfile2) # change contents to floats
-    for row in reader2: # each row is a list
-        data2.append(row)
-# print(data2)
-fvs_lexical2 = np.zeros((24, 1), np.float64)
-kk=0
-zz=0
-while(kk<24):
-    while(zz<1):
-        fvs_lexical2[kk, zz] = data2[kk][zz]
-        zz+=1
-    zz=0
-    kk+=1
-# print(fvs_lexical2)
+# data2=[]
+# with open("cons.csv") as csvfile2:
+#     reader2 = csv.reader(csvfile2) # change contents to floats
+#     for row in reader2: # each row is a list
+#         data2.append(row)
+# # print(data2)
+# fvs_lexical2 = np.zeros((24, 1), np.float64)
+# kk=0
+# zz=0
+# while(kk<24):
+#     while(zz<1):
+#         fvs_lexical2[kk, zz] = data2[kk][zz]
+#         zz+=1
+#     zz=0
+#     kk+=1
+# # print(fvs_lexical2)
 
-# print(fvs_lexical)
+# # print(fvs_lexical)
 data3=[]
 with open("test.csv") as csvfile3:
     reader3 = csv.reader(csvfile3) # change contents to floats
@@ -66,7 +66,7 @@ while(kkk<1):
     kkk+=1
 # print(fvs_lexical3)
 wine = pd.read_csv('user.csv')
-yy=pd.read_csv('agr.csv')
+yy=pd.read_csv('neu.csv')
 X = wine
 y = ravel(yy)
 # print(y)
@@ -77,7 +77,7 @@ StandardScaler(copy=True, with_mean=True, with_std=True)
 X_train = scaler.transform(X_train)
 # print(X_train)
 X_test = scaler.transform(X_test)
-mlp = MLPRegressor(hidden_layer_sizes=(10,10,10),max_iter=6000)
+mlp = MLPRegressor(hidden_layer_sizes=(8,8,8),max_iter=5000)
 mlp.fit(X_train,y_train)
 # predictions = mlp.predict(X_test)
 # # print(X_test)
