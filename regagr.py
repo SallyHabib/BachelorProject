@@ -32,7 +32,7 @@ while(k<24):
     k+=1
 
 data2=[]
-with open("extro.csv") as csvfile2:
+with open("agr.csv") as csvfile2:
     reader2 = csv.reader(csvfile2) # change contents to floats
     for row in reader2: # each row is a list
         data2.append(row)
@@ -66,7 +66,7 @@ while(kkk<1):
     kkk+=1
 # print(fvs_lexical3)
 wine = pd.read_csv('user.csv')
-yy=pd.read_csv('extro.csv')
+yy=pd.read_csv('agr.csv')
 X = fvs_lexical
 y = ravel(fvs_lexical2)
 # print(y)
@@ -82,7 +82,7 @@ mlp.fit(X_train,y_train)
 # predictions = mlp.predict(X_test)
 # # print(X_test)
 # print(mlp.n_iter_)
-# testing_scalar=scaler.transform(fvs_lexical3)
-# testing=mlp.predict(testing_scalar)
-# # print(confusion_matrix(X_test,testing))
-# print(testing)
+testing_scalar2=scaler.transform(fvs_lexical3)
+testing2=mlp.predict(testing_scalar2)
+# print(confusion_matrix(X_test,testing))
+print(testing2)
