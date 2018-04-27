@@ -55,10 +55,10 @@ with open("test.csv") as csvfile3:
     for row in reader3: # each row is a list
         data3.append(row)
         # print(row)
-fvs_lexical3 = np.zeros((6, 56), np.float64)
+fvs_lexical3 = np.zeros((1, 56), np.float64)
 kkk=0
 zzz=0
-while(kkk<6):
+while(kkk<1):
     while(zzz<56):
         fvs_lexical3[kkk, zzz] = data3[kkk][zzz]
         zzz+=1
@@ -70,6 +70,7 @@ yy=pd.read_csv('cons.csv')
 X = wine
 y = ravel(yy)
 # print(y)
+
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 scaler = StandardScaler()
 scaler.fit(X_train)
@@ -87,4 +88,5 @@ testing2=mlp.predict(testing_scalar2)
 # print(confusion_matrix(yy,X))
 # print(mlp.score(X_test, y_test))
 # print(mlp.score(testing_scalar2))
+print(mlp.score(X_test, y_test))
 print(testing2)
