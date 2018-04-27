@@ -55,10 +55,10 @@ with open("test.csv") as csvfile3:
     for row in reader3: # each row is a list
         data3.append(row)
         # print(row)
-fvs_lexical3 = np.zeros((1, 56), np.float64)
+fvs_lexical3 = np.zeros((6, 56), np.float64)
 kkk=0
 zzz=0
-while(kkk<1):
+while(kkk<6):
     while(zzz<56):
         fvs_lexical3[kkk, zzz] = data3[kkk][zzz]
         zzz+=1
@@ -79,10 +79,12 @@ X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 mlp = MLPRegressor(hidden_layer_sizes=(8,8,8),max_iter=5000)
 mlp.fit(X_train,y_train)
-# predictions = mlp.predict(X_test)
+predictions = mlp.predict(X_test)
 # # print(X_test)
 # print(mlp.n_iter_)
 testing_scalar2=scaler.transform(fvs_lexical3)
 testing2=mlp.predict(testing_scalar2)
-# print(confusion_matrix(X_test,testing))
+# print(confusion_matrix(yy,X))
+# print(mlp.score(X_test, y_test))
+# print(mlp.score(testing_scalar2))
 print(testing2)
