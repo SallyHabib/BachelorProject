@@ -6,16 +6,46 @@ from sklearn.model_selection import train_test_split
 import csv
 from sklearn.metrics import accuracy_score,precision_score
 
+data=[]
+i=0
+j=1
+with open("user.csv") as csvfile:
+    reader = csv.reader(csvfile) # change contents to floats
+    for row in reader: # each row is a list
+        data.append(row)
+fvs_lexical = np.zeros((24, 56), np.float64)
+k=0
+z=0
+while(k<24):
+    while(z<56):
+        fvs_lexical[k, z] = data[k][z]
+        z+=1
+    z=0
+    k+=1
 
-n_samples, n_features = 10, 5
-np.random.seed(0)
-y = np.random.randn(n_samples)
-X = np.random.randn(n_samples, n_features)
-wine = pd.read_csv('user.csv')
-yy=pd.read_csv('cons.csv')
-X = wine
-y = ravel(yy)
+data2=[]
+with open("cons.csv") as csvfile2:
+    reader2 = csv.reader(csvfile2) # change contents to floats
+    for row in reader2: # each row is a list
+        data2.append(row)
+# print(data2)
+fvs_lexical2 = np.zeros((24, 1), np.float64)
+kk=0
+zz=0
+while(kk<24):
+    while(zz<1):
+        fvs_lexical2[kk, zz] = data2[kk][zz]
+        zz+=1
+    zz=0
+    kk+=1
+# print(fvs_lexical2)
+
+# print(fvs_lexical)
+
+X = fvs_lexical
+y = ravel(fvs_lexical2)
 # print(y)
+
 
 X_train, X_test, y_train, y_test = train_test_split(X, y)
 clf = SVR(C=1.0, epsilon=0.2)
@@ -38,9 +68,9 @@ while(kkk<1):
         zzz+=1
     zzz=0
     kkk+=1
-print(fvs_lexical3)
+# print(fvs_lexical3)
 print(svr.predict(fvs_lexical3))
-print(svr.score(X_test, y_test))
+# print(svr.score(X_test, y_test))
 print(y_test)
 print(predictions)
 # precision=precision_score(y_test, predictions,average=None)
