@@ -11,6 +11,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
 from sklearn.metrics import classification_report,confusion_matrix
+from sklearn.metrics import accuracy_score,precision_score
+from bson import binary
 
 results=np.zeros([24,31])
 results2=[]
@@ -88,5 +90,17 @@ testing2=mlp.predict(testing_scalar2)
 # print(confusion_matrix(yy,X))
 # print(mlp.score(X_test, y_test))
 # print(mlp.score(testing_scalar2))
-print(mlp.score(X_test, y_test))
+# print(mlp.score(X_test, y_test))
+# print(testing2)
+# print(y_test)
+# print(predictions)
+# precision=precision_score(y_test, predictions,average=None)
+# print(precision)
+# y_test_array=ravel(y_test)
+# predictions_array=ravel(predictions)
+# # print(predictions_array)
+# predictions_array_int=predictions_array.astype(int)
+# print(predictions_array_int)
+# precision=precision_score(y_test, predictions_array_int,average=None)
+# print(precision)
 print(testing2)
