@@ -12,7 +12,8 @@ from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
 from sklearn.metrics import classification_report,confusion_matrix
 from sklearn.metrics import accuracy_score,precision_score
-from bson import binary
+from sklearn.metrics import explained_variance_score
+from sklearn.metrics import mean_absolute_error
 
 results=np.zeros([24,31])
 results2=[]
@@ -92,15 +93,20 @@ testing2=mlp.predict(testing_scalar2)
 # print(mlp.score(testing_scalar2))
 # print(mlp.score(X_test, y_test))
 # print(testing2)
-# print(y_test)
-# print(predictions)
+print(y_test)
+print(predictions)
 # precision=precision_score(y_test, predictions,average=None)
 # print(precision)
 # y_test_array=ravel(y_test)
 # predictions_array=ravel(predictions)
 # # print(predictions_array)
-# predictions_array_int=predictions_array.astype(int)
+predictions_array_int=predictions.astype(int)
 # print(predictions_array_int)
 # precision=precision_score(y_test, predictions_array_int,average=None)
 # print(precision)
+# y_test=[31]
+# predictions=[31]
+print(r2_score(y_test, predictions))
+print(explained_variance_score(y_test, predictions)  )
+# print(mean_absolute_error(y_test, predictions,multioutput='variance_weighted'))
 print(testing2)
