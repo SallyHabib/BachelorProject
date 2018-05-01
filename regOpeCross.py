@@ -11,6 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
 from sklearn.metrics import classification_report,confusion_matrix
+from sklearn.model_selection import LeaveOneOut 
 
 results=np.zeros([24,31])
 results2=[]
@@ -32,7 +33,7 @@ while(k<24):
     k+=1
 
 data2=[]
-with open("extro2.csv") as csvfile2:
+with open("ope.csv") as csvfile2:
     reader2 = csv.reader(csvfile2) # change contents to floats
     for row in reader2: # each row is a list
         data2.append(row)
@@ -66,11 +67,18 @@ while(kkk<1):
     kkk+=1
 # print(fvs_lexical3)
 wine = pd.read_csv('user.csv')
-yy=pd.read_csv('extro2.csv')
-X = wine
-y = ravel(yy)
+yy=pd.read_csv('ope.csv')
+X = fvs_lexical
+y = ravel(fvs_lexical2)
 # print(y)
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+# X_train, X_test, y_train, y_test = train_test_split(X, y)
+loo = LeaveOneOut()
+loo.get_n_splits(X)
+for train_index, test_index in loo.split(X):
+    # print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
 scaler = StandardScaler()
 scaler.fit(X_train)
 StandardScaler(copy=True, with_mean=True, with_std=True)
@@ -85,3 +93,4 @@ mlp.fit(X_train,y_train)
 testing_scalar=scaler.transform(fvs_lexical3)
 testing=mlp.predict(testing_scalar)
 print(testing)
+print(mlp.score(X_test, y_test))
