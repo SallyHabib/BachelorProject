@@ -12,6 +12,7 @@ from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
 from sklearn.metrics import classification_report,confusion_matrix
 from sklearn.model_selection import LeaveOneOut 
+from sklearn.metrics import accuracy_score,precision_score
 
 results=np.zeros([24,31])
 results2=[]
@@ -67,7 +68,7 @@ while(kkk<1):
     kkk+=1
 # print(fvs_lexical3)
 wine = pd.read_csv('user.csv')
-yy=pd.read_csv('extro2.csv')
+yy=pd.read_csv('neu.csv')
 X = fvs_lexical
 y = ravel(fvs_lexical2)
 # print(y)
@@ -79,6 +80,7 @@ for train_index, test_index in loo.split(X):
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
 
+# print(X_test)
 scaler = StandardScaler()
 scaler.fit(X_train)
 StandardScaler(copy=True, with_mean=True, with_std=True)
@@ -88,11 +90,15 @@ X_test = scaler.transform(X_test)
 mlp = MLPRegressor(hidden_layer_sizes=(8,8,8),max_iter=5000)
 mlp.fit(X_train,y_train)
 predictions = mlp.predict(X_test)
-print(predictions)
-print(y_test)
+# print(predictions)
+# print(y_test)
 # print(X_test)
 # print(mlp.n_iter_)
 testing_scalar=scaler.transform(fvs_lexical3)
 testing=mlp.predict(testing_scalar)
 print(testing)
+predictions_array_int=predictions.astype(int)
+# print(predictions_array_int)
+# precision=precision_score(y_test, predictions,average=None)
+# print(precision)
 print(mlp.score(X_test, y_test))

@@ -67,7 +67,7 @@ while(kkk<1):
     kkk+=1
 # print(fvs_lexical3)
 wine = pd.read_csv('user.csv')
-yy=pd.read_csv('extro2.csv')
+yy=pd.read_csv('cons.csv')
 X = fvs_lexical
 y = ravel(fvs_lexical2)
 # print(y)
