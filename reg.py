@@ -10,7 +10,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
-from sklearn.metrics import classification_report,confusion_matrix
 
 results=np.zeros([24,31])
 results2=[]

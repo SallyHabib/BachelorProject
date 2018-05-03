@@ -10,10 +10,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
-from sklearn.metrics import classification_report,confusion_matrix,mean_absolute_error,mean_squared_error
-from sklearn.metrics import accuracy_score,precision_score
+from sklearn.metrics import mean_squared_error
 from sklearn.metrics import explained_variance_score
-from sklearn.metrics import mean_absolute_error
 
 results=np.zeros([24,31])
 results2=[]
@@ -118,6 +116,4 @@ pred=predictions
 norm3 = pred/np.linalg.norm(pred, ord=np.inf, axis=0, keepdims=True)
 # print(norm3)
 print(mean_squared_error(norm2, norm3))
-print(r2_score(norm2, norm3))
-# print(mean_absolute_error(y_test, predictions,multioutput='variance_weighted'))
 print(testing2)
