@@ -87,9 +87,22 @@ X_train = scaler.transform(X_train)
 X_test = scaler.transform(X_test)
 mlp = MLPRegressor(hidden_layer_sizes=(8,8,8),max_iter=5000,solver='lbfgs')
 mlp.fit(X_train,y_train)
-# predictions = mlp.predict(X_test)
+predictions = mlp.predict(X_test)
 # print(X_test)
 # print(mlp.n_iter_)
+predictions_int=predictions.astype(int)
+y_test_int=y_test.astype(int)
+print(predictions_int)
+print(y_test_int)
+score=1
+
+if(predictions_int>y_test_int and predictions_int<=y_test_int+15):
+    diff = predictions_int - y_test_int
+    while (diff>0):
+        score-=0.06
+        diff-=1
+print(score)
+
 testing_scalar=scaler.transform(fvs_lexical3)
 testing=mlp.predict(testing_scalar)
 print(testing)
