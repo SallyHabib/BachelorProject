@@ -10,12 +10,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 from numpy.ma.core import ravel
-from sklearn.metrics import classification_report,confusion_matrix,mean_absolute_error
+from sklearn.metrics import classification_report,confusion_matrix,mean_absolute_error,mean_squared_error
 from sklearn.model_selection import LeaveOneOut 
 from sklearn.metrics import accuracy_score ,average_precision_score
 from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
 from sklearn.metrics import r2_score
 from sklearn.metrics import explained_variance_score
+from sklearn.preprocessing import normalize
 
 results=np.zeros([24,31])
 results2=[]
@@ -112,11 +113,20 @@ predictions_array_int=predictions.astype(int)
 # print(explained_variance_score(y_test, predictions,multioutput='uniform_average')  )
 # print(y_test+5)
 # print(y_test-5)
-print(r2_score(y_test, predictions))
+# print(r2_score(y_test, predictions))
 # print(r2_score(y_test-5, predictions_array_int))
 # print(mean_absolute_error(y_test, predictions))
 # print(y_test)
 y_true=ravel(y_test).astype(int)
+x=np.array([])
+x=y_test
+norm2 = x/np.linalg.norm(x, ord=np.inf, axis=0, keepdims=True)
+print(norm2)
+pred=np.array([])
+pred=predictions
+norm3 = pred/np.linalg.norm(pred, ord=np.inf, axis=0, keepdims=True)
+print(norm3)
+print(mean_squared_error(norm2, norm3))
 # pred_true=ravel(predictions).astype(int)
 # print(average_precision_score(y_true, pred_true) )
 print(explained_variance_score(y_true, predictions_array_int)  )
