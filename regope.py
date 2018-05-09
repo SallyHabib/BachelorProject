@@ -50,22 +50,22 @@ from sklearn.metrics import classification_report,confusion_matrix
 
 # # print(fvs_lexical)
 data3=[]
-with open("test.csv") as csvfile3:
+with open("test2EventsOpe.csv") as csvfile3:
     reader3 = csv.reader(csvfile3) # change contents to floats
     for row in reader3: # each row is a list
         data3.append(row)
         # print(row)
-fvs_lexical3 = np.zeros((1, 56), np.float64)
+fvs_lexical3 = np.zeros((1, 12), np.float64)
 kkk=0
 zzz=0
 while(kkk<1):
-    while(zzz<56):
+    while(zzz<12):
         fvs_lexical3[kkk, zzz] = data3[kkk][zzz]
         zzz+=1
     zzz=0
     kkk+=1
 # print(fvs_lexical3)
-wine = pd.read_csv('user.csv')
+wine = pd.read_csv('plot.csv')
 yy=pd.read_csv('ope.csv')
 X = wine
 y = ravel(yy)
@@ -77,7 +77,7 @@ StandardScaler(copy=True, with_mean=True, with_std=True)
 X_train = scaler.transform(X_train)
 # print(X_train)
 X_test = scaler.transform(X_test)
-mlp = MLPRegressor(hidden_layer_sizes=(8,8,8),max_iter=5000)
+mlp = MLPRegressor(hidden_layer_sizes=(10,10,10),max_iter=7000)
 mlp.fit(X_train,y_train)
 predictions = mlp.predict(X_test)
 # # print(X_test)
