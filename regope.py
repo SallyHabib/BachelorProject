@@ -55,11 +55,11 @@ with open("test2EventsOpe.csv") as csvfile3:
     for row in reader3: # each row is a list
         data3.append(row)
         # print(row)
-fvs_lexical3 = np.zeros((1, 11), np.float64)
+fvs_lexical3 = np.zeros((1, 12), np.float64)
 kkk=0
 zzz=0
 while(kkk<1):
-    while(zzz<11):
+    while(zzz<12):
         fvs_lexical3[kkk, zzz] = data3[kkk][zzz]
         zzz+=1
     zzz=0
@@ -70,7 +70,7 @@ yy=pd.read_csv('ope.csv')
 X = wine
 y = ravel(yy)
 # print(y)
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.15)
 scaler = StandardScaler()
 scaler.fit(X_train)
 StandardScaler(copy=True, with_mean=True, with_std=True)
