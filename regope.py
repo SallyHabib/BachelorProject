@@ -50,7 +50,7 @@ from sklearn.metrics import classification_report,confusion_matrix
 
 # # print(fvs_lexical)
 data3=[]
-with open("test2EventsOpe.csv") as csvfile3:
+with open("test2.csv") as csvfile3:
     reader3 = csv.reader(csvfile3) # change contents to floats
     for row in reader3: # each row is a list
         data3.append(row)
