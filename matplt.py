@@ -1,9 +1,8 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
 
-data = pd.read_csv('plot.csv')
+data = pd.read_csv('user2-ope.csv')
 cols = data.columns.tolist()
 correlations = data.corr()
 print(correlations)
