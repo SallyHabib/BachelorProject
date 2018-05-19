@@ -89,7 +89,7 @@ vectorizer = TfidfVectorizer(min_df=1)
 vectorizer.stop_words='english'
 X = vectorizer.fit_transform(corpus)
 idf = vectorizer.idf_
-no_topics = 10
+no_topics = 5
 # Run NMF
 nmf = NMF(n_components=no_topics, random_state=1, alpha=.1, l1_ratio=.5, init='nndsvd').fit(X)
 display_topics(nmf, vectorizer.get_feature_names(), 2)
